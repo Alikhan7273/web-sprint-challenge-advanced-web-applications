@@ -80,7 +80,7 @@ const ColorList = ({ colors, updateColors }) => {
     </div>
   );
 };
- 
+  
 export default ColorList;
 
 //Task List:
