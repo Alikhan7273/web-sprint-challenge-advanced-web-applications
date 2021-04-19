@@ -1,6 +1,13 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import BubblePage from "./components/BubblePage";
 import Login from "./components/Login";
 import "./styles.scss";
 
@@ -8,12 +15,26 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header>
-          Color Picker Sprint Challenge
-          <a data-testid="logoutButton" href="#">logout</a>
-        </header> 
-
-        <Route exact path="/" component={Login} />
+        <h1>Bubbles</h1>
+        <nav>
+          <ul className="menu">
+            <li className="main-menu">
+              <Link to="login/">Login</Link>
+            </li>
+            <li className="main-menu">
+              {localStorage.getItem("token") && (
+                <Link to="/colors">Bubbles</Link>
+              )}
+            </li>
+          </ul>
+        </nav>
+        <Switch>
+          <PrivateRoute exact path="/colors" component={BubblePage} />
+          <Route exact path="/login" component={Login} />
+          <Route path="/">
+            <Redirect to="/login" />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );
